@@ -27,6 +27,6 @@ RUN ./bin/installdependencies.sh
 RUN chown -R github .
 USER github
 
-RUN ./config.sh --url ${REPO_URL} --token ${TOKEN}
+RUN ./config.sh --unattended --replace --url ${REPO_URL} --token ${TOKEN}
 
 CMD ["./run.sh"]
