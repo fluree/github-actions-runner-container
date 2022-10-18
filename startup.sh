@@ -12,4 +12,16 @@ fi
 
 ./config.sh --unattended --replace --url ${REPO_URL} --token ${TOKEN}
 
-exec ./run.sh
+user=$(whoami)
+
+if [ -n "${DOCKER_GROUP_GID}" ]; then
+  sudo groupadd --gid ${DOCKER_GROUP_GID} docker
+  sudo usermod -aG docker ${user}
+fi
+
+wd=$(pwd)
+
+exec sudo -i -u ${user} sh -c "cd \"${wd}\"; exec ./run.sh"
+
+# for debugging
+# exec sudo -i -u ${user} sh -c "cd \"${wd}\"; exec bash"
